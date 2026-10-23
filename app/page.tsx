@@ -1,69 +1,121 @@
-import Image from "next/image";
+"use client";
+
+import React, { useState, useEffect } from "react";
+import { Navbar } from "./components/Navbar";
+import { TickerStrip } from "./components/TickerStrip";
+import { SearchModal } from "./components/SearchModal";
+import { OverviewView } from "./components/views/OverviewView";
+import { MarketsView } from "./components/views/MarketsView";
+import { CalculatorsView } from "./components/views/CalculatorsView";
+import { LearnView } from "./components/views/LearnView";
+import { IpoView } from "./components/views/IpoView";
+import { ArticleView } from "./components/views/ArticleView";
+import { StudioView } from "./components/views/StudioView";
+import { ArchitectureView } from "./components/views/ArchitectureView";
 
 export default function Home() {
+  const [currentView, setCurrentView] = useState<string>("overview");
+  const [searchOpen, setSearchOpen] = useState<boolean>(false);
+  const [darkMode, setDarkMode] = useState<boolean>(false);
+
+  // Synchronize dark mode class on <html>
+  useEffect(() => {
+    const root = document.documentElement;
+    if (darkMode) {
+      root.classList.add("dark");
+    } else {
+      root.classList.remove("dark");
+    }
+  }, [darkMode]);
+
+  // Global keyboard shortcut for search (Cmd+K / Ctrl+K)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+        e.preventDefault();
+        setSearchOpen((prev) => !prev);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
+  const handleNavigate = (view: string) => {
+    setCurrentView(view);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+    <div className="min-h-screen flex flex-col bg-[#f8faf8] text-[#111827] dark:bg-[#09120e] dark:text-[#f3f4f6] transition-colors duration-200">
+      {/* Top sticky Navigation */}
+      <Navbar
+        currentView={currentView}
+        onNavigate={handleNavigate}
+        onOpenSearch={() => setSearchOpen(true)}
+        darkMode={darkMode}
+        onToggleDarkMode={() => setDarkMode(!darkMode)}
+      />
+
+      {/* Market Ticker Strip */}
+      <TickerStrip onNavigate={handleNavigate} />
+
+      {/* Main Content Area */}
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+        {currentView === "overview" && <OverviewView onNavigate={handleNavigate} />}
+        {currentView === "markets" && <MarketsView onNavigate={handleNavigate} />}
+        {currentView === "calc" && <CalculatorsView />}
+        {currentView === "ipo" && <IpoView />}
+        {currentView === "learn" && (
+          <LearnView
+            onNavigate={handleNavigate}
+            onOpenSearch={() => setSearchOpen(true)}
+          />
+        )}
+        {currentView === "article" && <ArticleView onNavigate={handleNavigate} />}
+        {currentView === "studio" && <StudioView />}
+        {currentView === "arch" && <ArchitectureView />}
       </main>
+
+      {/* Global Glossary & Pages Search Modal */}
+      <SearchModal
+        isOpen={searchOpen}
+        onClose={() => setSearchOpen(false)}
+        onNavigate={handleNavigate}
+      />
+
+      {/* Global Footer */}
+      <footer className="border-t border-gray-200 dark:border-[#1a2d25] bg-white dark:bg-[#0a1410] py-8 text-xs text-gray-500 dark:text-gray-400">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-2">
+            <span className="font-serif font-bold text-gray-900 dark:text-white">Sanity Finance</span>
+            <span>© 2026. For education only, not investment advice.</span>
+          </div>
+
+          <div className="flex items-center gap-4 text-xs font-medium flex-wrap">
+            <button onClick={() => handleNavigate("overview")} className="hover:text-emerald-600 transition-colors">
+              Overview
+            </button>
+            <button onClick={() => handleNavigate("markets")} className="hover:text-emerald-600 transition-colors">
+              Markets
+            </button>
+            <button onClick={() => handleNavigate("calc")} className="hover:text-emerald-600 transition-colors">
+              Calculators
+            </button>
+            <button onClick={() => handleNavigate("ipo")} className="hover:text-emerald-600 transition-colors">
+              IPO Dashboard
+            </button>
+            <button onClick={() => handleNavigate("learn")} className="hover:text-emerald-600 transition-colors">
+              Learn
+            </button>
+            <button onClick={() => handleNavigate("studio")} className="hover:text-emerald-600 transition-colors">
+              Sanity Studio
+            </button>
+            <button onClick={() => handleNavigate("arch")} className="hover:text-emerald-600 transition-colors">
+              Architecture
+            </button>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
