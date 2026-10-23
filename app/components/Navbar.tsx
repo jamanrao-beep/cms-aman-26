@@ -39,18 +39,14 @@ export function Navbar({
     <header className="sticky top-0 z-40 bg-white/95 dark:bg-[#0a1410]/95 backdrop-blur-md border-b border-gray-100 dark:border-[#1a2d25] transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 gap-4">
-          {/* Logo & Brand */}
-          <div
-            className="flex items-center gap-3 cursor-pointer group"
+          {/* Logo only (No overlapping text) */}
+          <button
+            className="flex items-center cursor-pointer group shrink-0 p-1 rounded-xl hover:opacity-90 transition-opacity focus:outline-none"
             onClick={() => onNavigate("overview")}
+            aria-label="Home Overview"
           >
-            <FacetedBullLogo className="h-9 w-auto transition-transform group-hover:scale-105" />
-            <div className="flex flex-col">
-              <span className="font-bold text-lg tracking-tight text-gray-900 dark:text-white flex items-center gap-1.5 font-serif">
-                Sanity<span className="text-emerald-600 dark:text-emerald-400 font-sans font-semibold text-sm">Finance</span>
-              </span>
-            </div>
-          </div>
+            <FacetedBullLogo className="h-10 w-auto" />
+          </button>
 
           {/* Desktop Navigation Links */}
           <nav className="hidden md:flex items-center gap-1 lg:gap-2">
@@ -133,17 +129,24 @@ export function Navbar({
             {/* Dark / Light Toggle */}
             <button
               onClick={onToggleDarkMode}
-              className="p-2 rounded-full text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#162720] transition-colors"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border border-gray-200 dark:border-[#223d32] bg-gray-50 dark:bg-[#162720] text-gray-700 dark:text-gray-200 hover:border-emerald-500 transition-all cursor-pointer shadow-xs active:scale-95"
               aria-label="Toggle theme"
+              title={darkMode ? "Switch to light mode" : "Switch to dark mode"}
             >
               {darkMode ? (
-                <svg className="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clipRule="evenodd" />
-                </svg>
+                <>
+                  <svg className="w-3.5 h-3.5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clipRule="evenodd" />
+                  </svg>
+                  <span className="hidden sm:inline">Light</span>
+                </>
               ) : (
-                <svg className="w-4 h-4 text-gray-600" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
-                </svg>
+                <>
+                  <svg className="w-3.5 h-3.5 text-gray-600 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+                  </svg>
+                  <span className="hidden sm:inline">Dark</span>
+                </>
               )}
             </button>
 

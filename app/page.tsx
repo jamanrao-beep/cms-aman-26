@@ -18,13 +18,15 @@ export default function Home() {
   const [searchOpen, setSearchOpen] = useState<boolean>(false);
   const [darkMode, setDarkMode] = useState<boolean>(false);
 
-  // Synchronize dark mode class on <html>
+  // Synchronize dark mode class and data-theme on <html>
   useEffect(() => {
     const root = document.documentElement;
     if (darkMode) {
       root.classList.add("dark");
+      root.setAttribute("data-theme", "dark");
     } else {
       root.classList.remove("dark");
+      root.setAttribute("data-theme", "light");
     }
   }, [darkMode]);
 

@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *, [data-theme=dark], [data-theme=dark] *));
+
 :root {
   --background: #f8faf8;
   --foreground: #111827;
@@ -11,9 +13,10 @@
   --brand-red: #e63946;
   --brand-red-hover: #cc2936;
   --soft-green: #eaf8f1;
+  color-scheme: light;
 }
 
-.dark {
+.dark, [data-theme="dark"] {
   --background: #09120e;
   --foreground: #f3f4f6;
   --card-bg: #111e19;
@@ -24,6 +27,7 @@
   --brand-red: #ff5263;
   --brand-red-hover: #eb3f50;
   --soft-green: #132b21;
+  color-scheme: dark;
 }
 
 @theme inline {
