@@ -265,8 +265,8 @@ export function CalculatorsView() {
 
               <input
                 type="range"
-                min={isEmi ? 5 : 1}
-                max={isEmi ? 15 : 30}
+                min={isEmi ? 5 : isSip ? 4 : 1}
+                max={isEmi ? 15 : isSip ? 20 : 30}
                 step={0.1}
                 value={isEmi ? emiRate : isSip ? sipRate : lumpRate}
                 onChange={(e) => {
@@ -279,8 +279,8 @@ export function CalculatorsView() {
               />
 
               <div className="flex justify-between text-[11px] font-mono text-gray-400">
-                <span>{isEmi ? "5%" : "1%"}</span>
-                <span>{isEmi ? "15%" : "30%"}</span>
+                <span>{isEmi ? "5%" : isSip ? "4%" : "1%"}</span>
+                <span>{isEmi ? "15%" : isSip ? "20%" : "30%"}</span>
               </div>
             </div>
 
@@ -298,7 +298,7 @@ export function CalculatorsView() {
               <input
                 type="range"
                 min={1}
-                max={isEmi ? 30 : 40}
+                max={30}
                 step={1}
                 value={isEmi ? emiYears : isSip ? sipYears : lumpYears}
                 onChange={(e) => {
@@ -312,7 +312,7 @@ export function CalculatorsView() {
 
               <div className="flex justify-between text-[11px] font-mono text-gray-400">
                 <span>1 year</span>
-                <span>{isEmi ? "30 years" : "40 years"}</span>
+                <span>30 years</span>
               </div>
             </div>
           </div>

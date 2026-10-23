@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { LearningModuleBooksVisual } from "../visuals/LearningModuleBooksVisual";
 import { SkylineFooterVisual } from "../visuals/SkylineFooterVisual";
+import { PlantOnCoinsVisual } from "../visuals/PlantOnCoinsVisual";
 import { FacetedBullLogo } from "../FacetedBullLogo";
 
 interface LearnViewProps {
@@ -87,17 +88,25 @@ export function LearnView({ onNavigate, onOpenSearch }: LearnViewProps) {
   return (
     <div className="space-y-10 pb-12">
       {/* HEADER SECTION */}
-      <section className="pt-4 space-y-4">
-        <div>
-          <span className="font-mono text-[11px] font-bold uppercase tracking-wider text-rose-600 dark:text-rose-400">
-            FINANCIAL EDUCATION
-          </span>
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-serif text-gray-900 dark:text-white tracking-tight mt-1">
-            Less jargon. More understanding.
-          </h1>
-          <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 mt-2">
-            Build your financial knowledge, one clear explanation at a time.
-          </p>
+      <section className="pt-4 space-y-4 border-b border-gray-100 dark:border-[#1a2d25] pb-6">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div>
+            <span className="font-mono text-[11px] font-bold uppercase tracking-wider text-rose-600 dark:text-rose-400">
+              FINANCIAL EDUCATION
+            </span>
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-serif text-gray-900 dark:text-white tracking-tight mt-1">
+              Less jargon. More understanding.
+            </h1>
+            <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 mt-2">
+              Build your financial knowledge, one clear explanation at a time.
+            </p>
+          </div>
+
+          <div className="shrink-0 flex justify-end">
+            <div className="w-36 sm:w-48 h-auto">
+              <PlantOnCoinsVisual className="w-full h-auto drop-shadow-sm" />
+            </div>
+          </div>
         </div>
 
         {/* SEARCH BAR & CATEGORY PILLS */}

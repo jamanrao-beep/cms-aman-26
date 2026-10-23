@@ -48,67 +48,34 @@ export function Navbar({
             <FacetedBullLogo className="h-10 w-auto" />
           </button>
 
-          {/* Desktop Navigation Links */}
-          <nav className="hidden md:flex items-center gap-1 lg:gap-2">
+          {/* Desktop Navigation Links (Clean 5 tabs from screenshot) */}
+          <nav className="hidden md:flex items-center gap-2 lg:gap-4">
             {navLinks.map((link) => {
               const isActive = currentView === link.id;
+              const isRedActive = link.id === "ipo" || link.id === "learn";
               return (
                 <button
                   key={link.id}
                   onClick={() => onNavigate(link.id)}
-                  className={`relative px-3.5 py-1.5 text-sm font-medium rounded-full transition-all ${
+                  className={`relative px-3.5 py-1.5 text-sm font-semibold transition-all cursor-pointer ${
                     isActive
-                      ? "text-emerald-700 dark:text-emerald-400 font-semibold"
-                      : "text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
+                      ? isRedActive
+                        ? "text-rose-600 dark:text-rose-400"
+                        : "text-emerald-700 dark:text-emerald-400"
+                      : "text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
                   }`}
                 >
                   {link.label}
                   {isActive && (
-                    <span className="absolute bottom-0 left-3 right-3 h-0.5 bg-emerald-600 dark:bg-emerald-400 rounded-full" />
+                    <span
+                      className={`absolute bottom-0 left-3 right-3 h-0.5 rounded-full ${
+                        isRedActive ? "bg-rose-600 dark:bg-rose-400" : "bg-emerald-600 dark:bg-emerald-400"
+                      }`}
+                    />
                   )}
                 </button>
               );
             })}
-
-            {/* More views from HTML (Article, Sanity Studio, Architecture) */}
-            <div className="relative">
-              <button
-                onClick={() => setMoreDropdownOpen(!moreDropdownOpen)}
-                onBlur={() => setTimeout(() => setMoreDropdownOpen(false), 200)}
-                className={`px-3 py-1.5 text-sm font-medium rounded-full flex items-center gap-1 transition-all ${
-                  ["article", "studio", "arch"].includes(currentView)
-                    ? "text-emerald-700 dark:text-emerald-400 font-semibold"
-                    : "text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
-                }`}
-              >
-                <span>Docs & Studio</span>
-                <svg className={`w-3.5 h-3.5 transition-transform ${moreDropdownOpen ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-
-              {moreDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-56 rounded-xl bg-white dark:bg-[#111e19] shadow-xl border border-gray-100 dark:border-[#223d32] py-2 z-50 animate-in fade-in zoom-in-95">
-                  <div className="px-3 py-1 text-[11px] font-mono uppercase text-gray-400">Features from HTML</div>
-                  {secondaryLinks.map((item) => (
-                    <button
-                      key={item.id}
-                      onClick={() => {
-                        onNavigate(item.id);
-                        setMoreDropdownOpen(false);
-                      }}
-                      className={`w-full text-left px-3.5 py-2 text-xs font-medium transition-colors ${
-                        currentView === item.id
-                          ? "bg-emerald-50 dark:bg-[#162e24] text-emerald-700 dark:text-emerald-400"
-                          : "text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-[#162720]"
-                      }`}
-                    >
-                      {item.label}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
           </nav>
 
           {/* Right Action Buttons */}
